@@ -53,6 +53,10 @@ spec:
       script: |
         #!/bin/bash
         set -e
+        # Contourne le bug du vieux parseur toml de pip 21.1.1
+        if [ -f pyproject.toml ]; then
+          mv pyproject.toml pyproject.toml.bak
+        fi
         python -m pip install --upgrade pip wheel
         pip install --upgrade pip
         pip install -r requirements.txt
