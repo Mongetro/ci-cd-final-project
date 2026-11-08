@@ -41,11 +41,14 @@ spec:
       default: "-v"
   steps:
     - name: nosetests
-      image: python:3.11-slim
+      image: python:3.9-slim
       workingDir: $(workspaces.source.path)
       script: |
         #!/bin/bash
         set -e
-        python -m pip install --upgrade pip
+        # Supprime le pyproject.toml qui fait planter le vieux parseur TOML de pip 21.x
+        rm -f pyproject.toml setup.cfg
+        python -m pip install --upgrade pip wheel
+        pip install --upgrade pip
         pip install -r requirements.txt
         nosetests $(params.args)
