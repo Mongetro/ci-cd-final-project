@@ -70,4 +70,7 @@ spec:
         set -e
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        # Remplacer nose par pynose (fork compatible Python 3.11)
+        pip uninstall -y nose || true
+        pip install pynose
         nosetests $(params.args)
